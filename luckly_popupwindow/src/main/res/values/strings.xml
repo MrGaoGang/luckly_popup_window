@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PopupWindowViews</string>
+    <string name="app_name">luckly_popup_window</string>
 
     <string name="title_activity_show_jian_self">ShowJianSelfActivity</string>
     <string name="dummy_button">Dummy Button</string>
