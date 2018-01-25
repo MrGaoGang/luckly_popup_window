@@ -32,6 +32,7 @@ public class ListDataAdapter extends RecyclerView.Adapter<ListDataAdapter.ListDa
     private int mImageWSize, mImageHSize;
     LucklyPopopWindow.OnItemClickListener mOnItemClickListener;
     private int mTextColor;
+    private int mTextSize = 14;
 
     public ListDataAdapter(Context context) {
         mList = new ArrayList<>();
@@ -49,6 +50,7 @@ public class ListDataAdapter extends RecyclerView.Adapter<ListDataAdapter.ListDa
         DataBeans dataBeans = mList.get(position);
         String data = dataBeans.getData();
         holder.mTextView.setText(data);
+        holder.mTextView.setTextSize(mTextSize);
         holder.mTextView.setTextColor(mTextColor);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +89,10 @@ public class ListDataAdapter extends RecyclerView.Adapter<ListDataAdapter.ListDa
 
     public void setTextColor(int textColor) {
         mTextColor = textColor;
+    }
+
+    public void setTextSize(int textSize) {
+        mTextSize = textSize;
     }
 
     public void setData(List<DataBeans> list) {

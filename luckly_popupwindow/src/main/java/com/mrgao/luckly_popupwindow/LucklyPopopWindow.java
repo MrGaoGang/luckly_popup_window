@@ -209,6 +209,13 @@ public class LucklyPopopWindow extends PopupWindow {
         mAdapter.notifyDataSetChanged();
     }
 
+    public void setTextSize(int textSize){
+        if (mAdapter != null) {
+            mAdapter.setTextSize(textSize);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
     /**
      * 设置不显示图片
      */
@@ -255,6 +262,32 @@ public class LucklyPopopWindow extends PopupWindow {
         }
     }
 
+    /**
+     * 设置箭头的宽度
+     * @param triangleWidth
+     */
+    public void setTriangleWidth(int triangleWidth) {
+        mTriangleWidth = triangleWidth;
+        update();
+    }
+
+    /**
+     * 设置剪头的高度
+     * @param trianleHeight
+     */
+    public void setTrianleHeight(int trianleHeight) {
+        mTrianleHeight = trianleHeight;
+        update();
+    }
+
+    /**
+     * 设置圆角矩形半径
+     * @param radius
+     */
+    public void setRadius(int radius) {
+        mRadius = radius;
+        update();
+    }
 
     public RecyclerView getRecyclerView() {
         return mRecyclerView;
