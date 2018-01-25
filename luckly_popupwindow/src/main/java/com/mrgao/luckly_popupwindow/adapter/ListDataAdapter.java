@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.mrgao.luckly_popupwindow.LucklyPopopWindow;
 import com.mrgao.luckly_popupwindow.R;
 import com.mrgao.luckly_popupwindow.beans.DataBeans;
+import com.mrgao.luckly_popupwindow.utils.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,11 @@ public class ListDataAdapter extends RecyclerView.Adapter<ListDataAdapter.ListDa
 
     private List<DataBeans> mList;
     private Context mContext;
+    private boolean isImageDisable = false;
+    private int mImageWSize, mImageHSize;
     LucklyPopopWindow.OnItemClickListener mOnItemClickListener;
     private int mTextColor;
+
     public ListDataAdapter(Context context) {
         mList = new ArrayList<>();
         mContext = context;
@@ -42,7 +46,7 @@ public class ListDataAdapter extends RecyclerView.Adapter<ListDataAdapter.ListDa
 
     @Override
     public void onBindViewHolder(ListDataHolder holder, final int position) {
-        DataBeans dataBeans=mList.get(position);
+        DataBeans dataBeans = mList.get(position);
         String data = dataBeans.getData();
         holder.mTextView.setText(data);
         holder.mTextView.setTextColor(mTextColor);
@@ -55,9 +59,24 @@ public class ListDataAdapter extends RecyclerView.Adapter<ListDataAdapter.ListDa
             }
         });
 
-        if (dataBeans.getBitmap() != null) {
-            holder.mImageView.setImageBitmap(dataBeans.getBitmap());
+
+        if (isImageDisable) {
+            holder.mImageView.setVisibility(View.INVISIBLE);
+        } else {
+            holder.mImageView.setVisibility(View.VISIBLE);
+
+            if (mImageHSize != 0 && mImageWSize != 0) {
+                ViewGroup.LayoutParams layoutParams = holder.mImageView.getLayoutParams();
+                layoutParams.height = mImageHSize;
+                layoutParams.width = mImageWSize;
+                holder.mImageView.setLayoutParams(layoutParams);
+            }
+
+            if (dataBeans.getBitmap() != null) {
+                holder.mImageView.setImageBitmap(dataBeans.getBitmap());
+            }
         }
+
     }
 
     @Override
@@ -88,12 +107,26 @@ public class ListDataAdapter extends RecyclerView.Adapter<ListDataAdapter.ListDa
         mOnItemClickListener = onItemClickListener;
     }
 
+
+    public void setImageDisable(boolean enable) {
+        isImageDisable = enable;
+        notifyDataSetChanged();
+    }
+
+
+    public void setImageSize(int imageWSize, int imageHSize) {
+        mImageWSize = ScreenUtils.dp2px(mContext, imageWSize);
+        mImageHSize = ScreenUtils.dp2px(mContext, imageHSize);
+        notifyDataSetChanged();
+    }
+
     class ListDataHolder extends RecyclerView.ViewHolder {
         TextView mTextView;
         ImageView mImageView;
+
         public ListDataHolder(View itemView) {
             super(itemView);
-            mImageView=(ImageView)itemView.findViewById(R.id.image);
+            mImageView = (ImageView) itemView.findViewById(R.id.image);
             mTextView = (TextView) itemView.findViewById(R.id.item);
         }
     }

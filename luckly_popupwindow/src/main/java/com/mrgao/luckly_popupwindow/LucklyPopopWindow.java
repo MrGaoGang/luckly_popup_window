@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,23 +36,31 @@ import java.util.List;
  */
 
 public class LucklyPopopWindow extends PopupWindow {
-    public static final int LOCATION_STATE_LEFT = 0;
-    public static final int LOCATION_STATE_CENTER = 1;
-    public static final int LOCATION_STATE_RIGHT = 2;
-
     private Context mContext;
-    private View mContentView;//PopupWindow的contentView
+    //PopupWindow的contentView
+    private View mContentView;
+    //RecyclerView
     private RecyclerView mRecyclerView;
+    //Adapter
     private ListDataAdapter mAdapter;
-
-    private int mTriangleWidth = 30;//三角形的宽度
-    private int mTrianleHeight = 20;//三角形的高度
-    private int mRadius = 20;//圆角的半径
-    private int mTextColor = Color.BLACK;//字体的颜色
-    private int mBackgroundColor = Color.WHITE;//背景颜色
-
-    private float mDarkBackgroundDegree = 0.6f;//背景为灰色的程度
-
+    //三角形的宽度
+    private int mTriangleWidth = 40;
+    //三角形的高度
+    private int mTrianleHeight = 30;
+    //圆角的半径
+    private int mRadius = 30;
+    //字体的颜色
+    private int mTextColor = Color.BLACK;
+    //背景颜色
+    private int mBackgroundColor = Color.WHITE;
+    //背景为灰色的程度
+    private float mDarkBackgroundDegree = 0.6f;
+    //自绘制三角形圆角背景
+    private PopouBackView mPopouBackView;
+    //分割线横向布局
+    public static final int HORIZONTAL = LinearLayoutManager.HORIZONTAL;
+    //分割线纵向布局
+    public static final int VERTICAL = LinearLayoutManager.VERTICAL;
 
     public LucklyPopopWindow(Context context) {
         super(context);
@@ -70,7 +77,6 @@ public class LucklyPopopWindow extends PopupWindow {
         mRecyclerView = (RecyclerView) mContentView.findViewById(R.id.listView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.addItemDecoration(new LinnerItemDivider(mContext, LinnerItemDivider.VERTICAL_LIST));
         mAdapter = new ListDataAdapter(mContext);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setTextColor(mTextColor);
@@ -81,7 +87,6 @@ public class LucklyPopopWindow extends PopupWindow {
 
         setFocusable(true);
         setAnimationStyle(R.style.AlphaPopupWindow);
-        setBackgroundDrawable(new ColorDrawable());
         setOutsideTouchable(true);
 
         setOnDismissListener(new OnDismissListener() {
@@ -106,12 +111,12 @@ public class LucklyPopopWindow extends PopupWindow {
     }
 
     public void setData(String[] data, int[] images) {
-        List<DataBeans> beansList=new ArrayList<>();
+        List<DataBeans> beansList = new ArrayList<>();
         if (data.length == images.length) {
-            Bitmap bitmap=null;
+            Bitmap bitmap = null;
             for (int i = 0; i < images.length; i++) {
-                bitmap= BitmapFactory.decodeResource(mContext.getResources(),images[i]);
-                DataBeans dataBeans=new DataBeans(bitmap,data[i]);
+                bitmap = BitmapFactory.decodeResource(mContext.getResources(), images[i]);
+                DataBeans dataBeans = new DataBeans(bitmap, data[i]);
                 beansList.add(dataBeans);
             }
             setData(beansList);
@@ -119,12 +124,12 @@ public class LucklyPopopWindow extends PopupWindow {
     }
 
     public void setData(String[] data, Bitmap[] images) {
-        List<DataBeans> beansList=new ArrayList<>();
+        List<DataBeans> beansList = new ArrayList<>();
         if (data.length == images.length) {
-            Bitmap bitmap=null;
+            Bitmap bitmap = null;
             for (int i = 0; i < images.length; i++) {
-                bitmap=images[i];
-                DataBeans dataBeans=new DataBeans(bitmap,data[i]);
+                bitmap = images[i];
+                DataBeans dataBeans = new DataBeans(bitmap, data[i]);
                 beansList.add(dataBeans);
             }
             setData(beansList);
@@ -159,6 +164,22 @@ public class LucklyPopopWindow extends PopupWindow {
     }
 
     /**
+     * 添加分割线
+     *
+     * @param itemDecoration
+     */
+    public void addItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
+        mRecyclerView.addItemDecoration(itemDecoration);
+    }
+
+    /**
+     * 添加默认的分割线
+     */
+    public void addItemDecoration(int oritation, int color, int lineHeight) {
+        mRecyclerView.addItemDecoration(new LinnerItemDivider(oritation, color, lineHeight));
+    }
+
+    /**
      * 设置背景颜色
      *
      * @param backgroundColor
@@ -189,14 +210,38 @@ public class LucklyPopopWindow extends PopupWindow {
     }
 
     /**
+     * 设置不显示图片
+     */
+    public void setImageDisable(boolean imageDisable) {
+        if (mAdapter != null) {
+            mAdapter.setImageDisable(imageDisable);
+        }
+
+    }
+
+    /**
+     * 设置图片的大小
+     * @param widthDp
+     * @param heightDp
+     */
+    public void setImageSize(int widthDp,int heightDp) {
+        if (mAdapter != null) {
+            mAdapter.setImageSize(widthDp,heightDp);
+        }
+    }
+
+    /**
      * 改变背景颜色
      */
     private void darkenBackground(Float bgcolor) {
         WindowManager.LayoutParams lp = ((Activity) mContext).getWindow().getAttributes();
         lp.alpha = bgcolor;
-        ((Activity) mContext).getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        if (bgcolor == 1) {
+            ((Activity) mContext).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
+        } else {
+            ((Activity) mContext).getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的bug
+        }
         ((Activity) mContext).getWindow().setAttributes(lp);
-
     }
 
     /**
@@ -250,30 +295,28 @@ public class LucklyPopopWindow extends PopupWindow {
     /**
      * 在positionView的位置显示popupWindow;
      * 显示的时候 首先获取到背景View;然后将其设置为背景图片
-     *
-     * @param positionView
      */
     public void show(View parentView, View positionView) {
         int[] contentPosition = PopupWindowUtils.calculatePopupWindowPos(mContentView, positionView, mTrianleHeight);
         int[] centerPosition = PopupWindowUtils.getPositionViewCenterPos(positionView);
 
-        PopouBackView popouBackView = new PopouBackView(mContext);
-        popouBackView.setContentPosition(contentPosition);
-        popouBackView.setPosCenterPosition(centerPosition);
-        popouBackView.setRadius(mRadius);
-        popouBackView.setPosViewHeight(positionView.getMeasuredHeight());
-        popouBackView.setTranWidth(mTriangleWidth);
-        popouBackView.setViewWidth(mContentView.getMeasuredWidth());
-        popouBackView.setViewHeight(mContentView.getMeasuredHeight());
-        popouBackView.setShowDown(PopupWindowUtils.isShowDown(mContentView, positionView, mTrianleHeight));
-        popouBackView.setTranHeight(mTrianleHeight);
-        popouBackView.setBackColor(mBackgroundColor);
-        Bitmap bitmap = popouBackView.convertViewToBitmap();
+        mPopouBackView = new PopouBackView(mContext);
+        mPopouBackView.setContentPosition(contentPosition);
+        mPopouBackView.setPosCenterPosition(centerPosition);
+        mPopouBackView.setRadius(mRadius);
+        mPopouBackView.setPosViewHeight(positionView.getMeasuredHeight());
+        mPopouBackView.setViewWidth(getWidth());//注意这里传入的参数为popop的宽度
+        mPopouBackView.setViewHeight(mContentView.getMeasuredHeight());
+        mPopouBackView.setShowDown(PopupWindowUtils.isShowDown(mContentView, positionView, mTrianleHeight));
+        mPopouBackView.setTranWidth(mTriangleWidth);
+        mPopouBackView.setTranHeight(mTrianleHeight);
+        mPopouBackView.setBackColor(mBackgroundColor);
+
+        Bitmap bitmap = mPopouBackView.convertViewToBitmap();
         Drawable drawable = new BitmapDrawable(null, bitmap);
+        update();
         setBackgroundDrawable(drawable);
         darkenBackground(mDarkBackgroundDegree);//设置背景框为灰色
-
-
         showAtLocation(parentView, Gravity.TOP | Gravity.START, contentPosition[0], contentPosition[1]);
 
     }

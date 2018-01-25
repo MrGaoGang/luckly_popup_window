@@ -56,20 +56,21 @@ public class PopouBackView extends View {
         mPaint.setColor(mBackColor);
 
         int triangleX = posCenterPosition[0] - contentPosition[0];
+        int halfTriangleWidth = mTranWidth / 2;
         if (isShowDown) {
-            canvas.drawRoundRect(new RectF(mDrawMargin, mDrawMargin + mTranHeight, canvas.getWidth() - mDrawMargin, canvas.getHeight() - mDrawMargin-ScreenUtils.dp2px(getContext(),10)), mRadius, mRadius, mPaint);
+            canvas.drawRoundRect(new RectF(mDrawMargin, mDrawMargin + mTranHeight, canvas.getWidth() - mDrawMargin, canvas.getHeight() - mDrawMargin - ScreenUtils.dp2px(getContext(), 10)), mRadius, mRadius, mPaint);
 
             mPath.moveTo(triangleX, mDrawMargin);
-            mPath.lineTo(triangleX + mTranWidth / 2, mDrawMargin + mTranHeight);
-            mPath.lineTo(triangleX - mTranWidth / 2, mDrawMargin + mTranHeight);
+            mPath.lineTo(triangleX + halfTriangleWidth, mDrawMargin + mTranHeight);
+            mPath.lineTo(triangleX - halfTriangleWidth, mDrawMargin + mTranHeight);
             mPath.close();
             canvas.drawPath(mPath, mPaint);
         } else {
-            canvas.drawRoundRect(new RectF(mDrawMargin, mDrawMargin-ScreenUtils.dp2px(getContext(),10), canvas.getWidth() - mDrawMargin, canvas.getHeight() - mDrawMargin - mTranHeight), mRadius, mRadius, mPaint);
+            canvas.drawRoundRect(new RectF(mDrawMargin, mDrawMargin , canvas.getWidth() - mDrawMargin, canvas.getHeight() - mDrawMargin - mTranHeight), mRadius, mRadius, mPaint);
 
             mPath.moveTo(triangleX, canvas.getHeight() - mDrawMargin);
-            mPath.lineTo(triangleX + mTranWidth / 2, canvas.getHeight() - mDrawMargin - mTranHeight);
-            mPath.lineTo(triangleX - mTranWidth / 2, canvas.getHeight() - mDrawMargin - mTranHeight);
+            mPath.lineTo(triangleX + halfTriangleWidth, canvas.getHeight() - mDrawMargin - mTranHeight);
+            mPath.lineTo(triangleX - halfTriangleWidth, canvas.getHeight() - mDrawMargin - mTranHeight);
             mPath.close();
             canvas.drawPath(mPath, mPaint);
 
@@ -84,14 +85,14 @@ public class PopouBackView extends View {
 
     /**
      * 将view转换成bitmap
+     *
      * @return
      */
     public Bitmap convertViewToBitmap() {
 
-        Bitmap bitmap = Bitmap.createBitmap(viewWidth, viewHeight + mPosViewHeight + mTranHeight, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(viewWidth, viewHeight + mPosViewHeight + mTranHeight + 2 * mDrawMargin, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         draw(canvas);
-        invalidate();
         return bitmap;
     }
 
