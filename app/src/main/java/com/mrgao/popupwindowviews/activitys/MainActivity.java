@@ -48,13 +48,13 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.addAll(strings);
         mLucklyPopopWindow = new LucklyPopopWindow(this);
         //给popupWindow添加数据
-        mLucklyPopopWindow.setData(getResources().getStringArray(R.array.popupArray), new int[]{R.mipmap.more, R.mipmap.more, R.mipmap.more, R.mipmap.more});
+        mLucklyPopopWindow.setData(getResources().getStringArray(R.array.popupArray), new int[]{R.mipmap.add, R.mipmap.delete, R.mipmap.modify, R.mipmap.update});
 
         mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 //必须设置宽度
-                mLucklyPopopWindow.setWidth(200);
+                mLucklyPopopWindow.setWidth(150);
                 //监听事件
                 mLucklyPopopWindow.setOnItemClickListener(new LucklyPopopWindow.OnItemClickListener() {
                     @Override
@@ -67,10 +67,9 @@ public class MainActivity extends AppCompatActivity {
                 //添加分割线(可选)
                 mLucklyPopopWindow.addItemDecoration(LucklyPopopWindow.VERTICAL,Color.GRAY,1);
                 //设置image不显示(可选)
-                mLucklyPopopWindow.setImageDisable(true);
+               // mLucklyPopopWindow.setImageDisable(true);
                 //设置image的大小(可选)
                 mLucklyPopopWindow.setImageSize(20,20);
-
                 //显示popopWindow
                 mLucklyPopopWindow.show(getWindow().getDecorView(), view);
 

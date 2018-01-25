@@ -297,7 +297,7 @@ public class LucklyPopopWindow extends PopupWindow {
      * 显示的时候 首先获取到背景View;然后将其设置为背景图片
      */
     public void show(View parentView, View positionView) {
-        int[] contentPosition = PopupWindowUtils.calculatePopupWindowPos(mContentView, positionView, mTrianleHeight);
+        int[] contentPosition = PopupWindowUtils.calculatePopupWindowPos(mContentView, positionView, mTrianleHeight,getWidth());
         int[] centerPosition = PopupWindowUtils.getPositionViewCenterPos(positionView);
 
         mPopouBackView = new PopouBackView(mContext);

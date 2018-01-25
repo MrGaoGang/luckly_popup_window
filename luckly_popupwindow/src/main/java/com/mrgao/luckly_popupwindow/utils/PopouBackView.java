@@ -56,21 +56,22 @@ public class PopouBackView extends View {
         mPaint.setColor(mBackColor);
 
         int triangleX = posCenterPosition[0] - contentPosition[0];
+        System.out.println("X轴的坐标为" + triangleX + "  center" + posCenterPosition[0] + " content " + contentPosition[0]);
         int halfTriangleWidth = mTranWidth / 2;
         if (isShowDown) {
             canvas.drawRoundRect(new RectF(mDrawMargin, mDrawMargin + mTranHeight, canvas.getWidth() - mDrawMargin, canvas.getHeight() - mDrawMargin - ScreenUtils.dp2px(getContext(), 10)), mRadius, mRadius, mPaint);
 
             mPath.moveTo(triangleX, mDrawMargin);
-            mPath.lineTo(triangleX + halfTriangleWidth, mDrawMargin + mTranHeight);
-            mPath.lineTo(triangleX - halfTriangleWidth, mDrawMargin + mTranHeight);
+            mPath.lineTo(triangleX + halfTriangleWidth, mDrawMargin + mTranHeight * 2);
+            mPath.lineTo(triangleX - halfTriangleWidth, mDrawMargin + mTranHeight * 2);
             mPath.close();
             canvas.drawPath(mPath, mPaint);
         } else {
-            canvas.drawRoundRect(new RectF(mDrawMargin, mDrawMargin , canvas.getWidth() - mDrawMargin, canvas.getHeight() - mDrawMargin - mTranHeight), mRadius, mRadius, mPaint);
+            canvas.drawRoundRect(new RectF(mDrawMargin, mDrawMargin, canvas.getWidth() - mDrawMargin, canvas.getHeight() - mDrawMargin - mTranHeight), mRadius, mRadius, mPaint);
 
             mPath.moveTo(triangleX, canvas.getHeight() - mDrawMargin);
-            mPath.lineTo(triangleX + halfTriangleWidth, canvas.getHeight() - mDrawMargin - mTranHeight);
-            mPath.lineTo(triangleX - halfTriangleWidth, canvas.getHeight() - mDrawMargin - mTranHeight);
+            mPath.lineTo(triangleX + halfTriangleWidth, canvas.getHeight() - mDrawMargin - mTranHeight * 2);
+            mPath.lineTo(triangleX - halfTriangleWidth, canvas.getHeight() - mDrawMargin - mTranHeight * 2);
             mPath.close();
             canvas.drawPath(mPath, mPaint);
 
