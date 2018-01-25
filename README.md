@@ -59,7 +59,14 @@ PupopWindow动态获取显示的位置，并添加指示箭头
      void setOnItemClickListener(LucklyPopopWindow.OnItemClickListener onItemClickListener);
 ```
 
-### 8、在某个View下/上显示（自动判断上下）<br>
+### 9、设置箭头的宽,高,圆角矩形的半径<br>
+```Java
+     void setTriangleWidth(int triangleWidth);
+     void setTrianleHeight(int trianleHeight);
+     void setRadius(int radius);
+```
+
+### 10、在某个View下/上显示（自动判断上下）<br>
     注意：这个方法必须最后调用。
 ```Java
     void show(View parentView, View positionView);
