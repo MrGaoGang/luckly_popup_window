@@ -91,3 +91,35 @@ Step 2. 在build.gradle中添加如下依赖<br>
    请见:
    https://github.com/MrGaoGang/luckly_popup_window
    欢迎Star
+
+```Java
+     mLucklyPopopWindow = new LucklyPopopWindow(this);
+        //给popupWindow添加数据
+        mLucklyPopopWindow.setData(getResources().getStringArray(R.array.popupArray), new int[]{R.mipmap.add, R.mipmap.delete, R.mipmap.modify, R.mipmap.update});
+
+        mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                //必须设置宽度
+                mLucklyPopopWindow.setWidth(150);
+                //监听事件
+                mLucklyPopopWindow.setOnItemClickListener(new LucklyPopopWindow.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Toast.makeText(MainActivity.this, "点击的位置" + position, Toast.LENGTH_SHORT).show();
+                        mLucklyPopopWindow.dismiss();
+                    }
+                });
+
+                //添加分割线(可选)
+                mLucklyPopopWindow.addItemDecoration(LucklyPopopWindow.VERTICAL,Color.GRAY,1);
+                //设置image不显示(可选)
+               // mLucklyPopopWindow.setImageDisable(true);
+                //设置image的大小(可选)
+                mLucklyPopopWindow.setImageSize(20,20);
+                //显示popopWindow
+                mLucklyPopopWindow.show(getWindow().getDecorView(), view);
+
+            }
+        });
+```
