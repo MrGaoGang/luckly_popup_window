@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0000f1"
-    tools:context="com.mrgao.popupwindowviews.activitys.ShowDownActivity">
+    >
 
     <Button
         android:layout_width="wrap_content"

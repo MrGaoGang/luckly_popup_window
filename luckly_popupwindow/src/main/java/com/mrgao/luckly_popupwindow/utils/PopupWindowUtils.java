@@ -34,13 +34,17 @@ public class PopupWindowUtils {
 
         contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
 
+
         int contentViewHeight = contentView.getMeasuredHeight();
 
         boolean isShowDown = isShowDown(contentView, positionView, triangleHeight);
         if (isShowDown) {
+            if (viewWidth <= posViewWidth) {
+                contentPos[0] = positionPos[0] + (posViewWidth - viewWidth) / 2;
+            }
             //如果positionView的位置在最左边，且宽度没有内容那么宽，那么就取一半，
             //为什么不取0，那是因为想给显示的popup左边留一部分控件
-            if (positionPos[0] < viewWidth) {
+            else if (positionPos[0] < viewWidth) {
                 contentPos[0] = positionPos[0] / 2;
             }
             //如果positionView的右边可以容得下PopupWindow，那么PopupWindow显示在positionView的中间

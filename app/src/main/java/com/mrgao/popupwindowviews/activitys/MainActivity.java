@@ -7,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.mrgao.luckly_popupwindow.LucklyPopopWindow;
 import com.mrgao.luckly_popupwindow.utils.LinnerItemDivider;
@@ -52,27 +51,27 @@ public class MainActivity extends AppCompatActivity {
 
         mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(final View view, int position) {
                 //必须设置宽度
                 mLucklyPopopWindow.setWidth(150);
                 //监听事件
                 mLucklyPopopWindow.setOnItemClickListener(new LucklyPopopWindow.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        Toast.makeText(MainActivity.this, "点击的位置" + position, Toast.LENGTH_SHORT).show();
+
+                        //添加分割线(可选)
+                        mLucklyPopopWindow.addItemDecoration(LucklyPopopWindow.VERTICAL,Color.GRAY,1);
+                        //设置image不显示(可选)
+                         mLucklyPopopWindow.setImageDisable(true);
+                        //设置image的大小(可选)
+                        mLucklyPopopWindow.setImageSize(20,20);
+                        //显示popopWindow
+
                         mLucklyPopopWindow.dismiss();
                     }
                 });
 
-                //添加分割线(可选)
-                mLucklyPopopWindow.addItemDecoration(LucklyPopopWindow.VERTICAL,Color.GRAY,1);
-                //设置image不显示(可选)
-               // mLucklyPopopWindow.setImageDisable(true);
-                //设置image的大小(可选)
-                mLucklyPopopWindow.setImageSize(20,20);
-                //显示popopWindow
                 mLucklyPopopWindow.show(getWindow().getDecorView(), view);
-
             }
         });
     }
