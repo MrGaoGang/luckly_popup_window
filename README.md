@@ -16,7 +16,7 @@ PupopWindow动态获取显示的位置，并添加指示箭头
 Step 2. 在build.gradle中添加如下依赖<br>
 ```Java
  dependencies {
-	        compile 'com.github.MrGaoGang:luckly_popup_window:v1.3.1'
+	        compile 'com.github.MrGaoGang:luckly_popup_window:v1.3.2'
 	 }
 ```
 # 常用的方法
