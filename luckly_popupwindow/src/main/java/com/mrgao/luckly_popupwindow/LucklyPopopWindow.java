@@ -354,6 +354,44 @@ public class LucklyPopopWindow extends PopupWindow {
 
     }
 
+    public  ViewGroup.LayoutParams setViewMargin(boolean isDp, int left, int right, int top, int bottom) {
+        if (mRecyclerView == null) {
+            return null;
+        }
+
+        int leftPx = left;
+        int rightPx = right;
+        int topPx = top;
+        int bottomPx = bottom;
+        ViewGroup.LayoutParams params = mRecyclerView.getLayoutParams();
+        ViewGroup.MarginLayoutParams marginParams = null;
+        //获取view的margin设置参数
+        if (params instanceof ViewGroup.MarginLayoutParams) {
+            marginParams = (ViewGroup.MarginLayoutParams) params;
+        } else {
+            //不存在时创建一个新的参数
+            marginParams = new ViewGroup.MarginLayoutParams(params);
+        }
+
+        //根据DP与PX转换计算值
+        if (isDp) {
+            leftPx = ScreenUtils.dp2px(mContext,left);
+            rightPx = ScreenUtils.dp2px(mContext,right);
+            topPx = ScreenUtils.dp2px(mContext,top);
+            bottomPx = ScreenUtils.dp2px(mContext,bottom);
+        }
+        //设置margin
+        marginParams.setMargins(leftPx, topPx, rightPx, bottomPx);
+        mRecyclerView.setLayoutParams(marginParams);
+        return marginParams;
+    }
+
+    public void setViewPadding(int left, int top,int right, int bottom){
+        if (mRecyclerView != null) {
+            mRecyclerView.setPadding(left,top,right,bottom);
+        }
+
+    }
 
     @Override
     public void showAtLocation(View parent, int gravity, int x, int y) {

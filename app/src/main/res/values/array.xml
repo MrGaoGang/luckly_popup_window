@@ -4,7 +4,6 @@
     <string-array name="popupArray">
         <item>添加</item>
         <item>删除</item>
-        <item>更新</item>
-        <item>查询</item>
+
     </string-array>
 </resources>
