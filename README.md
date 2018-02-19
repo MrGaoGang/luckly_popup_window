@@ -7,6 +7,7 @@ PupopWindow动态获取显示的位置，并添加指示箭头
 
 ## 引用包 [![](https://jitpack.io/v/mrgaogang/luckly_popup_window.svg)](https://jitpack.io/#mrgaogang/luckly_popup_window)
 
+
  Step 1.在根 build.gradle中添加如下依赖<br>
 ```Java
 	allprojects {
@@ -19,7 +20,7 @@ PupopWindow动态获取显示的位置，并添加指示箭头
 Step 2. 在build.gradle中添加如下依赖<br>
 ```Java
  dependencies {
-	        compile 'com.github.mrgaogang:luckly_popup_window:v1.4.0'
+	        compile 'com.github.mrgaogang:luckly_popup_window:v1.4.1'
 	 }
 ```
 # 常用的方法
