@@ -2,7 +2,7 @@
 PupopWindow动态获取显示的位置，并添加指示箭头
 <br>
 效果图<br>
-![](https://github.com/MrGaoGang/luckly_popup_window/blob/master/images/image.gif) ![](https://github.com/MrGaoGang/luckly_popup_window/blob/master/images/showbottom.gif)
+![](https://github.com/MrGaoGang/luckly_popup_window/blob/master/images/image.gif) ![](https://github.com/MrGaoGang/luckly_popup_window/blob/master/images/showbottom.png)
 
 ## 引用包 [![](https://jitpack.io/v/mrgaogang/luckly_popup_window.svg)](https://jitpack.io/#mrgaogang/luckly_popup_window)
 
