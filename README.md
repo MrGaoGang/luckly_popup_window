@@ -2,8 +2,10 @@
 PupopWindow动态获取显示的位置，并添加指示箭头
 <br>
 效果图<br>
-![](https://github.com/MrGaoGang/luckly_popup_window/blob/master/images/image.gif)
-## 引用包[![](https://jitpack.io/v/MrGaoGang/luckly_popup_window.svg)](https://jitpack.io/#MrGaoGang/luckly_popup_window)
+![](https://github.com/MrGaoGang/luckly_popup_window/blob/master/images/image.gif) ![](https://github.com/MrGaoGang/luckly_popup_window/blob/master/images/showbottom.gif)
+
+## 引用包 [![](https://jitpack.io/v/mrgaogang/luckly_popup_window.svg)](https://jitpack.io/#mrgaogang/luckly_popup_window)
+
  Step 1.在根 build.gradle中添加如下依赖<br>
 ```Java
 	allprojects {
@@ -16,7 +18,7 @@ PupopWindow动态获取显示的位置，并添加指示箭头
 Step 2. 在build.gradle中添加如下依赖<br>
 ```Java
  dependencies {
-	        compile 'com.github.mrgaogang:luckly_popup_window:v1.3.3'
+	        compile 'com.github.mrgaogang:luckly_popup_window:v1.4.0'
 	 }
 ```
 # 常用的方法
@@ -84,7 +86,13 @@ Step 2. 在build.gradle中添加如下依赖<br>
 ### 10、在某个View下/上显示（自动判断上下）<br>
     注意：这个方法必须最后调用。
 ```Java
-    void show(View parentView, View positionView);
+    void showAtLocation(View parentView, View positionView);
+```
+
+### 11、模仿ios底部弹窗
+
+```Java
+	mLucklyPopopWindow.showInBottom(getWindow().getDecorView());
 ```
 
 # LucklyPopouWindow的使用方法。
@@ -118,7 +126,7 @@ Step 2. 在build.gradle中添加如下依赖<br>
                 //设置image的大小(可选)
                 mLucklyPopopWindow.setImageSize(20,20);
                 //显示popopWindow
-                mLucklyPopopWindow.show(getWindow().getDecorView(), view);
+                mLucklyPopopWindow.showAtLocation(getWindow().getDecorView(), view);
 
             }
         });
