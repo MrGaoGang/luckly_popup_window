@@ -118,14 +118,11 @@ public class LucklyPopopWindow extends PopupWindow {
 
     public void showInBottom(final View parentView) {
         mCancelTv.setVisibility(View.VISIBLE);
-        int width = ScreenUtils.getScreenWidth(mContext) * 10 / 20;
-        setWidth(width);
-        setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         setAnimationStyle(R.style.BottomPopupWindow);
-        ColorDrawable dw = new ColorDrawable(-00000);
+
+        ColorDrawable dw = new ColorDrawable( 0000000000);
         this.setBackgroundDrawable(dw);
         darkenBackground(mDarkBackgroundDegree);//设置背景框为灰色
-
         setImageDisable(true);
         showAtLocation(parentView, Gravity.BOTTOM, 0, 100);
 
@@ -196,16 +193,7 @@ public class LucklyPopopWindow extends PopupWindow {
         return mContentView;
     }
 
-    /**
-     * 设置宽度
-     *
-     * @param widthDp
-     */
-    @Override
-    public void setWidth(int widthDp) {
-        super.setWidth(ScreenUtils.dp2px(mContext, widthDp));
-        update();
-    }
+
 
     /**
      * 添加分割线
