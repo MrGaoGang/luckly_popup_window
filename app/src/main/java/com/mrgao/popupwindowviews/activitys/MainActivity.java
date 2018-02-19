@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.mrgao.luckly_popupwindow.LucklyPopopWindow;
 import com.mrgao.luckly_popupwindow.beans.DataBeans;
 import com.mrgao.luckly_popupwindow.utils.LinnerItemDivider;
+import com.mrgao.luckly_popupwindow.utils.ScreenUtils;
 import com.mrgao.popupwindowviews.R;
 import com.mrgao.popupwindowviews.adapter.RecyclerAdapter;
 
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(final View view, int position) {
                 //必须设置宽度
-                mLucklyPopopWindow.setWidth(160);
+                mLucklyPopopWindow.setWidth(ScreenUtils.dp2px(getApplicationContext(),160));
                 //添加分割线(可选)
                 mLucklyPopopWindow.addItemDecoration(LucklyPopopWindow.VERTICAL, Color.GRAY, 1);
                 //设置image不显示(可选)
