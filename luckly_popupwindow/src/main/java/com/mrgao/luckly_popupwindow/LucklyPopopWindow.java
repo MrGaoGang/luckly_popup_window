@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.mrgao.luckly_popupwindow.adapter.ListDataAdapter;
 import com.mrgao.luckly_popupwindow.beans.DataBeans;
@@ -36,6 +38,7 @@ import java.util.List;
  */
 
 public class LucklyPopopWindow extends PopupWindow {
+    private static final String TAG = "LucklyPopopWindow";
     private Context mContext;
     //PopupWindow的contentView
     private View mContentView;
@@ -48,7 +51,7 @@ public class LucklyPopopWindow extends PopupWindow {
     //三角形的高度
     private int mTrianleHeight = 30;
     //圆角的半径
-    private int mRadius = 30;
+    private int mRadius = 20;
     //字体的颜色
     private int mTextColor = Color.BLACK;
     //背景颜色
@@ -61,6 +64,10 @@ public class LucklyPopopWindow extends PopupWindow {
     public static final int HORIZONTAL = LinearLayoutManager.HORIZONTAL;
     //分割线纵向布局
     public static final int VERTICAL = LinearLayoutManager.VERTICAL;
+
+    public TextView mCancelTv;
+
+    private List<DataBeans> mBeansList = new ArrayList<>();
 
     public LucklyPopopWindow(Context context) {
         super(context);
@@ -75,6 +82,9 @@ public class LucklyPopopWindow extends PopupWindow {
     private void initContentView() {
         mContentView = LayoutInflater.from(mContext).inflate(R.layout.popup_layout, null);
         mRecyclerView = (RecyclerView) mContentView.findViewById(R.id.listView);
+        mCancelTv = (TextView) mContentView.findViewById(R.id.cancelTv);
+        mCancelTv.setVisibility(View.GONE);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter = new ListDataAdapter(mContext);
@@ -82,19 +92,43 @@ public class LucklyPopopWindow extends PopupWindow {
         mAdapter.setTextColor(mTextColor);
 
         setContentView(mContentView);
+
+
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
 
         setFocusable(true);
         setAnimationStyle(R.style.AlphaPopupWindow);
         setOutsideTouchable(true);
-
         setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss() {
                 darkenBackground(1f);
             }
         });
+
+        mCancelTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+    }
+
+
+    public void showInBottom(final View parentView) {
+        mCancelTv.setVisibility(View.VISIBLE);
+        int width = ScreenUtils.getScreenWidth(mContext) * 10 / 20;
+        setWidth(width);
+        setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        setAnimationStyle(R.style.BottomPopupWindow);
+        ColorDrawable dw = new ColorDrawable(-00000);
+        this.setBackgroundDrawable(dw);
+        darkenBackground(mDarkBackgroundDegree);//设置背景框为灰色
+
+        setImageDisable(true);
+        showAtLocation(parentView, Gravity.BOTTOM, 0, 100);
+
 
     }
 
@@ -111,29 +145,39 @@ public class LucklyPopopWindow extends PopupWindow {
     }
 
     public void setData(String[] data, int[] images) {
-        List<DataBeans> beansList = new ArrayList<>();
+        mBeansList.clear();
         if (data.length == images.length) {
             Bitmap bitmap = null;
             for (int i = 0; i < images.length; i++) {
                 bitmap = BitmapFactory.decodeResource(mContext.getResources(), images[i]);
                 DataBeans dataBeans = new DataBeans(bitmap, data[i]);
-                beansList.add(dataBeans);
+                mBeansList.add(dataBeans);
             }
-            setData(beansList);
+            setData(mBeansList);
         }
     }
 
     public void setData(String[] data, Bitmap[] images) {
-        List<DataBeans> beansList = new ArrayList<>();
+        mBeansList.clear();
         if (data.length == images.length) {
             Bitmap bitmap = null;
             for (int i = 0; i < images.length; i++) {
                 bitmap = images[i];
                 DataBeans dataBeans = new DataBeans(bitmap, data[i]);
-                beansList.add(dataBeans);
+                mBeansList.add(dataBeans);
             }
-            setData(beansList);
+            setData(mBeansList);
         }
+    }
+
+    public void setData(String[] data) {
+        mBeansList.clear();
+        for (int i = 0; i < data.length; i++) {
+            DataBeans dataBeans = new DataBeans();
+            dataBeans.setData(data[i]);
+            mBeansList.add(dataBeans);
+        }
+        setData(mBeansList);
     }
 
     /**
@@ -209,11 +253,23 @@ public class LucklyPopopWindow extends PopupWindow {
         mAdapter.notifyDataSetChanged();
     }
 
-    public void setTextSize(int textSize){
+    public void setTextSize(int textSize) {
         if (mAdapter != null) {
             mAdapter.setTextSize(textSize);
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    public void setCancelTextColor(int textColor) {
+        mCancelTv.setVisibility(textColor);
+    }
+
+    public void setCancelTextSize(int size) {
+        mCancelTv.setTextSize(size);
+    }
+
+    public void setCancelText(String text) {
+        mCancelTv.setText(text);
     }
 
     /**
@@ -228,12 +284,13 @@ public class LucklyPopopWindow extends PopupWindow {
 
     /**
      * 设置图片的大小
+     *
      * @param widthDp
      * @param heightDp
      */
-    public void setImageSize(int widthDp,int heightDp) {
+    public void setImageSize(int widthDp, int heightDp) {
         if (mAdapter != null) {
-            mAdapter.setImageSize(widthDp,heightDp);
+            mAdapter.setImageSize(widthDp, heightDp);
         }
     }
 
@@ -264,6 +321,7 @@ public class LucklyPopopWindow extends PopupWindow {
 
     /**
      * 设置箭头的宽度
+     *
      * @param triangleWidth
      */
     public void setTriangleWidth(int triangleWidth) {
@@ -273,6 +331,7 @@ public class LucklyPopopWindow extends PopupWindow {
 
     /**
      * 设置剪头的高度
+     *
      * @param trianleHeight
      */
     public void setTrianleHeight(int trianleHeight) {
@@ -282,6 +341,7 @@ public class LucklyPopopWindow extends PopupWindow {
 
     /**
      * 设置圆角矩形半径
+     *
      * @param radius
      */
     public void setRadius(int radius) {
@@ -329,10 +389,12 @@ public class LucklyPopopWindow extends PopupWindow {
      * 在positionView的位置显示popupWindow;
      * 显示的时候 首先获取到背景View;然后将其设置为背景图片
      */
-    public void show(View parentView, View positionView) {
-        int[] contentPosition = PopupWindowUtils.calculatePopupWindowPos(mContentView, positionView, mTrianleHeight,getWidth());
+    public void showAtLocation(View parentView, View positionView) {
+        int[] contentPosition = PopupWindowUtils.calculatePopupWindowPos(mContentView, positionView, mTrianleHeight, getWidth());
         int[] centerPosition = PopupWindowUtils.getPositionViewCenterPos(positionView);
 
+        mRecyclerView.setBackground(null);
+        mRecyclerView.setAlpha(1.0f);
         mPopouBackView = new PopouBackView(mContext);
         mPopouBackView.setContentPosition(contentPosition);
         mPopouBackView.setPosCenterPosition(centerPosition);
@@ -354,7 +416,7 @@ public class LucklyPopopWindow extends PopupWindow {
 
     }
 
-    public  ViewGroup.LayoutParams setViewMargin(boolean isDp, int left, int right, int top, int bottom) {
+    public ViewGroup.LayoutParams setViewMargin(boolean isDp, int left, int right, int top, int bottom) {
         if (mRecyclerView == null) {
             return null;
         }
@@ -375,20 +437,22 @@ public class LucklyPopopWindow extends PopupWindow {
 
         //根据DP与PX转换计算值
         if (isDp) {
-            leftPx = ScreenUtils.dp2px(mContext,left);
-            rightPx = ScreenUtils.dp2px(mContext,right);
-            topPx = ScreenUtils.dp2px(mContext,top);
-            bottomPx = ScreenUtils.dp2px(mContext,bottom);
+            leftPx = ScreenUtils.dp2px(mContext, left);
+            rightPx = ScreenUtils.dp2px(mContext, right);
+            topPx = ScreenUtils.dp2px(mContext, top);
+            bottomPx = ScreenUtils.dp2px(mContext, bottom);
         }
         //设置margin
         marginParams.setMargins(leftPx, topPx, rightPx, bottomPx);
+
         mRecyclerView.setLayoutParams(marginParams);
+        mCancelTv.setLayoutParams(marginParams);
         return marginParams;
     }
 
-    public void setViewPadding(int left, int top,int right, int bottom){
+    public void setViewPadding(int left, int top, int right, int bottom) {
         if (mRecyclerView != null) {
-            mRecyclerView.setPadding(left,top,right,bottom);
+            mRecyclerView.setPadding(left, top, right, bottom);
         }
 
     }

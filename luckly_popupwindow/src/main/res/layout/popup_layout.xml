@@ -2,17 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:background="@android:color/transparent"
+             android:paddingBottom="5dp"
               android:orientation="vertical">
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/bottom_back"
+        android:layout_marginRight="30dp"
+        android:alpha="0.9"
         android:layout_height="wrap_content"
         />
+
+
+    <TextView
+        android:id="@+id/cancelTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bottom_back"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:alpha="0.9"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:text="取消"
+        android:textColor="@color/ios_blue"
+        android:textSize="14sp"/>
 
 </LinearLayout>

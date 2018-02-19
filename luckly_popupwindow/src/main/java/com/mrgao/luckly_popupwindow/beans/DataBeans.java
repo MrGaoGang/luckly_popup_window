@@ -1,6 +1,7 @@
 package com.mrgao.luckly_popupwindow.beans;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 /**
  * Created by mr.gao on 2018/1/24.
@@ -13,6 +14,19 @@ import android.graphics.Bitmap;
 public class DataBeans {
     Bitmap mBitmap;
     String mData;
+    int mTextColor = Color.WHITE;
+
+
+    public int getTextColor() {
+        return mTextColor;
+    }
+
+    public void setTextColor(int textColor) {
+        mTextColor = textColor;
+    }
+
+    public DataBeans() {
+    }
 
     public DataBeans(Bitmap bitmap, String data) {
         mBitmap = bitmap;

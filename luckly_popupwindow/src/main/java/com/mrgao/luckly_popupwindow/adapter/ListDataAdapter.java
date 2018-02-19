@@ -1,6 +1,7 @@
 package com.mrgao.luckly_popupwindow.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,9 @@ public class ListDataAdapter extends RecyclerView.Adapter<ListDataAdapter.ListDa
                 }
             }
         });
+        if (dataBeans.getTextColor() != Color.WHITE) {
+            holder.mTextView.setTextColor(dataBeans.getTextColor());
+        }
 
 
         if (isImageDisable) {
