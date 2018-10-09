@@ -135,3 +135,10 @@ Step 2. 在build.gradle中添加如下依赖<br>
             }
         });
 ```
+
+
+
+
+欢迎关注我的微信公众号一起学习Mendix和Android: 
+
+![](https://github.com/MrGaoGang/MendixWidgets/blob/master/images/wechat.jpg)
