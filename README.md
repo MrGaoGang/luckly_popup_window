@@ -7,6 +7,21 @@ PupopWindow动态获取显示的位置，并添加指示箭头
 ![](https://github.com/MrGaoGang/luckly_popup_window/blob/master/images/image.gif) 
 ![](https://github.com/MrGaoGang/luckly_popup_window/blob/master/images/showbottom.png)
 
+
+**目录**:
+- [1、添加数据<br>](#1添加数据br)
+- [2、设置LucklyPopupWindow的宽度（必须设置）<br>](#2设置lucklypopupwindow的宽度必须设置br)
+- [3、给每一个Item添加分割线<br>](#3给每一个item添加分割线br)
+- [4、设置背景颜色<br>](#4设置背景颜色br)
+- [5、设置PopupWindow显示时Activity其余部分显示灰色程度<br>](#5设置popupwindow显示时activity其余部分显示灰色程度br)
+- [6、设置字体的颜色和大小<br>](#6设置字体的颜色和大小br)
+- [7、设置图片不显示以及设置图片大小<br>](#7设置图片不显示以及设置图片大小br)
+- [8、添加监听事件<br>](#8添加监听事件br)
+- [9、设置箭头的宽,高,圆角矩形的半径<br>](#9设置箭头的宽高圆角矩形的半径br)
+- [10、在某个View下/上显示（自动判断上下）<br>](#10在某个view下上显示自动判断上下br)
+- [11、模仿ios底部弹窗](#11模仿ios底部弹窗)
+
+
 ## 引用包 [![](https://jitpack.io/v/mrgaogang/luckly_popup_window.svg)](https://jitpack.io/#mrgaogang/luckly_popup_window)
 
 
